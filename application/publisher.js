@@ -6,14 +6,14 @@ const { hostName, port, pwd, appInsightKey } = require("./config");
 appInsights.setup(appInsightKey).start();
 var client = appInsights.defaultClient;
 var myargs = process.argv.slice(2); // channelName
-var firstChannelId = myargs[0];
+var firstChannelId = Number(myargs[0]);
 
 // create an array of 150 channels
 // send message at every 200ms to all those 150 channels
 var totalMessagesSent = new Array(constants.TOTAL_CHANNEL_PER_PUBLISHER).fill(
   0
 );
-var currentBatchCount = new Array(constatns.TOTAL_CHANNEL_PER_PUBLISHER).fill(
+var currentBatchCount = new Array(constants.TOTAL_CHANNEL_PER_PUBLISHER).fill(
   0
 );
 
@@ -35,14 +35,17 @@ function publishMessage() {
 function sendMetric() {
   for (var i = 0; i < constants.TOTAL_CHANNEL_PER_PUBLISHER; i++) {
     var propertySet = {
-      TotalMessagesSent: totalMessagesSent[i],
-      channelId: firstChannelId + i,
+      "TotalMessagesSent": totalMessagesSent[i],
+      "channelId": firstChannelId + i
     };
-    var metric = { MessageBatchSent: currentBatchCount[i] };
+    var metric = { "MessageBatchSent": currentBatchCount[i] };
+
+    // console.log("property: " + JSON.stringify(propertySet))
+    // console.log("metrics: " + JSON.stringify(metric))
     client.trackEvent({
       name: "pubEvents",
       properties: propertySet,
-      measurements: metric,
+      measurements: metric
     });
     currentBatchCount[i] = 0;
   }

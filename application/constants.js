@@ -3,5 +3,5 @@ module.exports = Object.freeze({
   MESSAGE_PUBLISH_INTERVAL: 200, // Messages publishing interval i.e. every x milliseconds messages will be published to redis
   METRIC_SENT_INTERVAL: 60000, // ideal to be 1 minute
   MESSAGE_EXPIRY_INTERVAL: 300000,
-  TOTAL_CHANNEL_PER_PUBLISHER: 150,
+  TOTAL_CHANNEL_PER_PUBLISHER: 150
 });
